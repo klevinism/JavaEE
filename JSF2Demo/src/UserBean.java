@@ -1,6 +1,7 @@
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -8,9 +9,10 @@ import dao.LoginDAO;
 import dao.SignUpDAO;
 import objects.User;
 import session.SessionUtils;
+import utils.EmailSender;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UserBean {
 	private String userId;
 	private String username;
@@ -148,9 +150,7 @@ public class UserBean {
 		int age = 0;
 		char sex = 's';
 		
-		
 		// get all form data
-		System.out.println("GET all data");
 		name = String.valueOf(this.username);
 		password = String.valueOf(this.password);
 		email = String.valueOf(this.email);
@@ -159,15 +159,14 @@ public class UserBean {
 		
 		User newUser = new User(name,password,email,age,sex);
 		
-		System.out.println("SEt new user");
 		//validate all form data
 		boolean validUser = service.checkUser(newUser);
 		//register to db
 
 		if(validUser) {
-			System.out.println("Validate User");
-
 			SignUpDAO.SignUp(newUser);
+			EmailSender.send("delimetaselti@gmail.com", "Klklkl007", "klevindelimeta@hotmail.com");
+			return "signupVerification";
 		}else {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
@@ -177,9 +176,5 @@ public class UserBean {
 			return null;
 		}
 		
-		//send verification email
-		//done
-		
-		return "findUser";
 	}
 }

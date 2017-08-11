@@ -22,7 +22,7 @@ public class UserManager {
 		return users.get(id);
 	}
 	
-	public User findUser(String name, String password) {
+	public User findUser(String name, String password){
 		Iterator itr = users.entrySet().iterator();
 		
 		while(itr.hasNext()) {
@@ -82,7 +82,5 @@ public class UserManager {
 		
 			return true;
 	}
-	
-	
 	
 }

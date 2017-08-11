@@ -2,11 +2,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html">
-<h:head>
-	<title>Login</title>
-</h:head>
-<h:body>
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	<f:metadata>
+	   <f:viewParam name="e" />
+	</f:metadata>
+	
+	<h:head>
+		<title>Login</title>
+	</h:head>
+	<h:body>
+	
+	    <h:outputText value="e=#{EmailVerificationBean.params}" />
 	
 		<legend>Login</legend>
 		<h:form>
@@ -14,12 +22,12 @@
 			<h:message for="username" style="color:red" autoUpdate="true"/>
 			<br /><br />
 			Password : <h:inputSecret id="password" placeholder="Password" value="#{userBean.password}"/>
-			<h:message for="password" style="color:red" autoUpdate="true"/>
+			<h:message id="passwordMessage" for="password" style="color:red" autoUpdate="true"/>
 			<br />
-			<h:commandButton value="Login" action="#{userBean.login}" />
+			<h:commandButton value="Login" action="#{userBean.login}" update="passwordMessage"/>
 		</h:form>
 		
 		<br/><br/><br/>
 		<h:link value="SignUp page" outcome="signup" />
-</h:body>
+	</h:body>
 </html>
