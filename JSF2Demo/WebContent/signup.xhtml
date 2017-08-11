@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>Sign Up</title>
+</h:head>
+<h:body>
+
+
+	<legend>Sign Up</legend>
+
+	<h:form id="SignUpForm"> 
+	
+		<h:outputText value="Username : "/>
+			<h:inputText placeholder="Username" id="username" value="#{userBean.username}" />
+		<br/>
+		<h:outputText value="Password : "/>
+			<h:inputSecret placeholder="Password" id="password" value="#{userBean.password}" />
+		<br/>
+		<h:outputText value="Email : "/>
+			<h:inputText placeholder="Email" id="email" value="#{userBean.email}" />
+		<br/>
+		<h:outputText value="Age : "/>
+			<h:inputText placeholder="Age" id="age" value="#{userBean.age}" />
+		<br/>
+		<h:outputText value="Sex : "/>
+			<h:selectOneMenu value = "#{userBean.sex}"> 
+	            <f:selectItem itemValue = "m" itemLabel = "M" /> 
+	            <f:selectItem itemValue = "f" itemLabel = "F" /> 
+	         </h:selectOneMenu> 
+		<br/>
+		<h:commandButton value="Sign Up" action="#{userBean.signup}" />
+	</h:form>
+
+	<h:message for="SignUpForm" />
+
+</h:body>
+</html>
