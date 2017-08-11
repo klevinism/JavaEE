@@ -2,7 +2,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import objects.User;
+import utils.Util;
 
 public class UserManager {
 	private Map<Integer, User> users;
@@ -43,4 +47,42 @@ public class UserManager {
 	private void addUser(User user) {
 		users.put(user.getId(), user);
 	}
+
+	public boolean checkUser(User user) {
+		//validate name
+		if(!Util.isString(user.getName())) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Incorrect Username",
+							"Please enter a valid Username"));
+			return false;
+		}else if(!Util.isPassword(user.getPassword())) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Incorrect Password",
+							"Please enter a valid Password"));
+			return false;
+		}else if(!Util.isEmail(user.getEmail())) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Incorrect Email",
+							"Please enter a valid Email"));
+			return false;
+		}else if(!Util.isAge(user.getAge())) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Incorrect Age",
+							"Please enter a valid Age (10-80)"));
+			return false;
+		}
+		
+			return true;
+	}
+	
+	
+	
 }

@@ -5,6 +5,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import dao.LoginDAO;
+import dao.SignUpDAO;
 import objects.User;
 import session.SessionUtils;
 
@@ -14,6 +15,9 @@ public class UserBean {
 	private String userId;
 	private String username;
 	private String password;
+	private String email;
+	private int age;
+	private char sex;
 	private String msg;
 	
 	private UserManager service = new UserManager();
@@ -48,6 +52,30 @@ public class UserBean {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String getEmail() {
+		return this.email;
+	}
+	
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+	public int getAge() {
+		return this.age;
+	}
+	
+	public void setSex(char sex) {
+		this.sex = sex;
+	}
+	
+	public char getSex() {
+		return this.sex;
 	}
 	
 	private User user;
@@ -85,23 +113,21 @@ public class UserBean {
 			name = String.valueOf(this.username);
 			password = String.valueOf(this.password);
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 
 		boolean valid = LoginDAO.validate(name, password);
 
 		if(valid) {
-			
-			//Set session
-			System.out.println("Login");
 			HttpSession session = SessionUtils.getSession();
 			session.setAttribute("username", name);
 			return ("findUser");
 		}else {
-			System.out.println("ERROR");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage("fads"));
+					new FacesMessage(FacesMessage.SEVERITY_WARN,
+							"Incorrect Username and Passowrd",
+							"Please enter correct username and Password"));
 			
 			return null;
 		}
@@ -113,5 +139,47 @@ public class UserBean {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
 		return ("login");
+	}
+
+	public String signup() {
+		String name = "";
+		String password = "";
+		String email = "";
+		int age = 0;
+		char sex = 's';
+		
+		
+		// get all form data
+		System.out.println("GET all data");
+		name = String.valueOf(this.username);
+		password = String.valueOf(this.password);
+		email = String.valueOf(this.email);
+		age = Integer.valueOf(this.age);
+		sex = Character.valueOf(this.sex);
+		
+		User newUser = new User(name,password,email,age,sex);
+		
+		System.out.println("SEt new user");
+		//validate all form data
+		boolean validUser = service.checkUser(newUser);
+		//register to db
+
+		if(validUser) {
+			System.out.println("Validate User");
+
+			SignUpDAO.SignUp(newUser);
+		}else {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Something Wrong",
+							"Something went wrong. Please check signup fields again !!!"));
+			return null;
+		}
+		
+		//send verification email
+		//done
+		
+		return "findUser";
 	}
 }

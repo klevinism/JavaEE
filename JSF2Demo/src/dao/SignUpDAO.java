@@ -26,6 +26,8 @@ public class SignUpDAO {
 			conn = DBConnection.openConnection();
 			statement = conn.prepareStatement("Insert into users (uname, password, email, age, sex) VALUES (?, ?, ?, ?, ?)");
 			
+			System.out.println(user.getName()+"-"+user.getPassword()+"-"+user.getEmail()+"-"+user.getAge()+"-"+user.getSex());
+			
 			statement.setString(1, user.getName());
 			statement.setString(2, user.getPassword());
 			statement.setString(3, user.getEmail());

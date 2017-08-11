@@ -39,6 +39,8 @@ public class AuthorizationFilter implements Filter {
 					|| reqURI.indexOf("/public/") >= 0
 					|| reqURI.contains("java.faces.resource"))
 				arg2.doFilter(arg0,arg1);
+			else if(reqURI.indexOf("/signup.xhtml")>=0)
+				arg2.doFilter(arg0, arg1);
 			else
 				res.sendRedirect(req.getContextPath() +  "/faces/login.xhtml");
 		

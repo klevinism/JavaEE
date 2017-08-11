@@ -15,6 +15,18 @@ public class User {
 		this.age = age;
 		this.sex = sex;
 	}
+	
+	public User(String username, String password, String email, int age, char sex) {
+		this.name = username;
+		this.password = password;
+		this.email = email;
+		this.age = age;
+		this.sex = sex;
+	}
+	
+	public User(){
+	}
+	
 	public int getId() {
 		return id;
 	}
